@@ -2,9 +2,12 @@ name: build
 
 on:
   push:
-    branches: [main]
-    tags: ['v*']
+    branches: [ main ]
+    tags: [ 'v*' ]
   pull_request:
+
+permissions:
+  contents: write
 
 jobs:
   test:
@@ -15,43 +18,44 @@ jobs:
         run: bash tools/check_all.sh
 
   firmware:
+    needs: test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
-          python-version: '3.12'
+          python-version: '3.11'
       - name: Install PlatformIO
-        run: pip install platformio
+        run: pip install --upgrade platformio
       - name: Build firmware
-        run: python3 -m platformio run -d gbemu_pio
-      - name: Rename artifact
+        run: platformio run -d gbemu_pio
+      - name: Package
         run: |
-          V=$(grep -o 'GBEMU_BUILD "[^"]*"' gbemu/gbemu.ino | cut -d'"' -f2)
+          V=$(grep '#define GBEMU_BUILD' gbemu/gbemu.ino | head -1 | sed 's/^[^"]*"\([^"]*\)".*/\1/')
+          if [ -z "$V" ]; then echo "version extract failed"; exit 1; fi
+          echo "build version: $V"
           cp gbemu_pio/.pio/build/pico/firmware.uf2 "gbemu_${V}_jeeree.uf2"
           sha256sum "gbemu_${V}_jeeree.uf2" > SHA256SUMS.txt
-          cat SHA256SUMS.txt
-      - uses: actions/upload-artifact@v4
+          ls -la
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
         with:
           name: firmware-uf2
           path: |
             gbemu_*_jeeree.uf2
             SHA256SUMS.txt
+          if-no-files-found: error
 
-  # На теге v* собираем релиз и прикладываем бинарники автоматически
   release:
     if: startsWith(github.ref, 'refs/tags/v')
-    needs: [test, firmware]
+    needs: [ test, firmware ]
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
     steps:
       - uses: actions/download-artifact@v4
         with:
           name: firmware-uf2
+          path: dist
       - uses: softprops/action-gh-release@v2
         with:
-          files: |
-            gbemu_*_jeeree.uf2
-            SHA256SUMS.txt
+          files: dist/*
           generate_release_notes: true
