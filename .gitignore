@@ -1,0 +1,17 @@
+# артефакты сборки
+.pio/
+*.o
+*.elf
+*.bin
+!tools/roms_pack/_region.bin
+*.uf2
+__pycache__/
+tools/harness/harness2
+tools/harness/harness_asan
+tools/apu_test
+tools/apu/*.wav
+
+# рабочая мелочь
+*.bak
+*.bak.*
+.DS_Store
