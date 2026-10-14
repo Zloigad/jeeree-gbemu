@@ -8,7 +8,8 @@
 ```
 gbemu/         исходники прошивки (Arduino IDE: открой gbemu.ino)
 gbemu_pio/     проект PlatformIO (одна команда до .uf2)
-tools/         автотесты, пакер игр (make_roms_uf2.py), бэкап-утилита (bin2uf2.py)
+tools/         автотесты, упаковка набора игр (pack_roms_kit.py), бэкап-утилита (bin2uf2.py)
+roms_kit/      готовый набор сборщика игр — CI кладёт его в релиз как jeeree_roms_kit.zip
 docs/          гайды
 ```
 

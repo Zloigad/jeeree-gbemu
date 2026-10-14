@@ -2,7 +2,7 @@
 
 > EN: No games are included (legal reasons). Put ROMs of cartridges **you
 > own** into `.gb` files and pack them into a games image with
-> `tools/make_roms_uf2.py`; flash it the same way as the firmware.
+> `roms_kit/make_roms_uf2.py`; flash it the same way as the firmware.
 
 В прошивке **нет ни одной игры** — только заглушка. Это принципиально: ROM-ы
 игр распространять нельзя, поэтому каждый собирает библиотеку из своих
@@ -17,14 +17,21 @@
 
 ## Сборка «картриджа» с играми
 
-**Windows:** положи свои `.gb` в папку `Мои игры` рядом со скриптом и запусти
-`СОБРАТЬ_ИГРЫ_двойной_клик.bat` (нужен бесплатный Python — скрипт сам
-подскажет, если его нет). Готовый файл `games.uf2` появится рядом.
+**Самый простой путь — готовый набор.** Скачай из
+[Releases](../../releases) архив **`jeeree_roms_kit.zip`** (он в каждом
+релизе рядом с прошивкой) и распакуй в любое место. Внутри всё готово:
+сам сборщик, кнопка запуска, папка для игр и `README.txt` с картинами
+шагами.
 
-**Linux/macOS/любая ОС:**
+**Windows:** положи свои `.gb` в папку `Мои_игры_класть_сюда` (она внутри
+набора) и запусти двойным кликом `СОБРАТЬ_ИГРЫ_двойной_клик.bat` (нужен бесплатный Python — скрипт сам
+подскажет, если его нет, и откроет страницу загрузки). В окне нажми «Из папки «Мои игры»» → «СОБРАТЬ games.uf2».
+Готовый `games.uf2` появится рядом.
+
+**Linux/macOS (или из исходников репозитория):**
 
 ```bash
-python3 tools/make_roms_uf2.py game1.gb game2.gb game3.gb -o games.uf2
+python3 roms_kit/make_roms_uf2.py game1.gb game2.gb game3.gb -o games.uf2
 ```
 
 ## Установка игр

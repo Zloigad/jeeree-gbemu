@@ -5,6 +5,7 @@
 *.bin
 !tools/roms_pack/_region.bin
 *.uf2
+jeeree_roms_kit.zip
 __pycache__/
 tools/harness/harness2
 tools/harness/harness_asan

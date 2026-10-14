@@ -35,7 +35,8 @@ jobs:
           if [ -z "$V" ]; then echo "version extract failed"; exit 1; fi
           echo "build version: $V"
           cp gbemu_pio/.pio/build/pico/firmware.uf2 "gbemu_${V}_jeeree.uf2"
-          sha256sum "gbemu_${V}_jeeree.uf2" > SHA256SUMS.txt
+          python3 tools/pack_roms_kit.py jeeree_roms_kit.zip
+          sha256sum "gbemu_${V}_jeeree.uf2" jeeree_roms_kit.zip > SHA256SUMS.txt
           ls -la
       - name: Upload artifact
         uses: actions/upload-artifact@v4
@@ -43,6 +44,7 @@ jobs:
           name: firmware-uf2
           path: |
             gbemu_*_jeeree.uf2
+            jeeree_roms_kit.zip
             SHA256SUMS.txt
           if-no-files-found: error
 

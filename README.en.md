@@ -43,7 +43,8 @@ press START while holding it**. A drive named `RPI-RP2` appears.
 **Step 3.** Drag the `.uf2` file onto the `RPI-RP2` drive. The drive
 disappears, the console reboots. Done.
 
-**Step 4.** Add games ([docs/ROMS.md](docs/ROMS.md)) and play.
+**Step 4.** Add games: download `jeeree_roms_kit.zip` (the game packer) from
+[Releases](../../releases) — see [docs/ROMS.md](docs/ROMS.md) — and play.
 
 ---
 
